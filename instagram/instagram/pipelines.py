@@ -20,6 +20,8 @@ class MyImagesPipeline(ImagesPipeline):
 
     def file_path(self, request, response=None, info=None):
         item = request.meta['item']
+        page_count = item['page'] - 1
         index = request.meta['index']
-        name = item['title'].strip() + '/' + str(index) + '.jpg'
+        name = item['title'].strip() + '/' + \
+            str(page_count * 12 + index) + '.jpg'
         return name

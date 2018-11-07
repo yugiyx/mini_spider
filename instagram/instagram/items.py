@@ -12,3 +12,4 @@ class ImageItem(scrapy.Item):
     image_urls = scrapy.Field()
     images = scrapy.Field()
     title = scrapy.Field()
+    page = scrapy.Field()
