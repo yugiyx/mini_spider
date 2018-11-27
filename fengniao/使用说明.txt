@@ -1,0 +1,11 @@
+1、确保download_log.txt跟fengniao.exe在一个目录，没有就新建一个。
+2、当前路径打开命令行，可以直接把exe拖入命令行
+3、 
+不带参数，下载大师版最新2页
+fengniao.exe 
+
+--total_page=，下载大师版最新10页，以此类推
+fengniao.exe --total_page=10 
+
+带bbs帖子网址，下载帖子图片
+fengniao.exe http://bbs.fengniao.com/forum/10580380.html
