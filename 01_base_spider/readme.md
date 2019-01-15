@@ -37,7 +37,7 @@
 2. 存储增量爬虫所需要的历史爬取记录，用于去重复
 
 ### 爬虫运行流程
-![image](http://xxxx.com/jpg)
+![image](https://github.com/yugiyx/my_spider/blob/master/01_base_spider/readme_pic/snap-02.png?raw=true)
 
 ## 0x03 程序环境
 ### Python及相关第三方库
