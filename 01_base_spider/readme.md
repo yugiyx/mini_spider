@@ -15,7 +15,7 @@
 
 ## 0x02 轻量爬虫架构
 ### 框架图
-![image](http://xxxx.com/jpg)
+![image](https://github.com/yugiyx/my_spider/blob/master/01_base_spider/readme_pic/snap-01.png?raw=true)
 
 ### 爬虫调度器
 1. 主要负责统筹其他四个模块的协调工作
