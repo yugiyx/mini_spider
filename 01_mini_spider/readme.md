@@ -15,7 +15,7 @@
 
 ## 0x02 轻量爬虫架构
 ### 框架图
-![image](https://github.com/yugiyx/my_spider/blob/master/01_base_spider/readme_pic/snap-01.png?raw=true)
+![image](https://github.com/yugiyx/my_spider/blob/master/01_mini_spider/readme_pic/snap-01.png?raw=true)
 
 ### 爬虫调度器
 1. 主要负责统筹其他四个模块的协调工作
@@ -37,7 +37,7 @@
 2. 存储增量爬虫所需要的历史爬取记录，用于去重复
 
 ### 爬虫运行流程
-![image](https://github.com/yugiyx/my_spider/blob/master/01_base_spider/readme_pic/snap-02.png?raw=true)
+![image](https://github.com/yugiyx/my_spider/blob/master/01_mini_spider/readme_pic/snap-02.png?raw=true)
 
 ## 0x03 程序环境
 ### Python及相关第三方库
