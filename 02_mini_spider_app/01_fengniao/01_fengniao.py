@@ -27,7 +27,7 @@ def request_url(url, headers=None, params=None, data=None):
     :params get请求所需参数
     :data post请求所需表单
     返回：
-    正常时，Response对象。异常时，打印异常说明,返回None
+    正常时，Response对象。异常时，打印异常说明，返回None
     '''
     try:
         if not data:
