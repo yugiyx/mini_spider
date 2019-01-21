@@ -22,22 +22,24 @@ class UrlManager(object):
     def add_new_url(self, url):
         '''
          将新的URL添加到未爬取的URL集合中
-        :param url:单个URL
+        :parameter:
+        url 单个URL
         :return:
         '''
         if url is None:
-            return
+            return None
         if url not in self.new_urls and url not in self.old_urls:
             self.new_urls.add(url)
 
     def add_new_urls(self, urls):
         '''
         将新的URLS添加到未爬取的URL集合中
-        :param urls:url集合
+        :parameter:
+        urls url集合
         :return:
         '''
         if urls is None or len(urls) == 0:
-            return
+            return None
         for url in urls:
             self.add_new_url(url)
 

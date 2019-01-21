@@ -1,5 +1,4 @@
-# coding:utf-8
-import codecs
+import json
 
 
 class DataOutput(object):
@@ -12,20 +11,30 @@ class DataOutput(object):
             return
         self.datas.append(data)
 
-    def output_html(self):
-        fout = codecs.open('baike.html', 'w', encoding='utf-8')
-        fout.write("<html>")
-        fout.write("<head><meta charset='utf-8'/></head>")
-        fout.write("<body>")
-        fout.write("<table>")
-        for data in self.datas:
-            fout.write("<tr>")
-            fout.write("<td>%s</td>" % data['url'])
-            fout.write("<td>%s</td>" % data['title'])
-            fout.write("<td>%s</td>" % data['summary'])
-            fout.write("</tr>")
+    def save_2_text(self):
+        '''
+        存储为纯文本
+        :return:
+        '''
+        pass
 
-        fout.write("</table>")
-        fout.write("</body>")
-        fout.write("</html>")
-        fout.close()
+    def save_2_csv(self):
+        '''
+        存储为CSV格式纯文本
+        :return:
+        '''
+        pass
+
+    def save_2_json(self):
+        '''
+        存储为JSON格式纯文本
+        :return:
+        '''
+        pass
+
+    def save_2_binary(self):
+        '''
+        存储为二进制格式，图片、文件等
+        :return:
+        '''
+        pass

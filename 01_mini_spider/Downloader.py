@@ -3,7 +3,7 @@ import requests
 
 class HtmlDownloader(object):
 
-    # 非用户直接设置参数
+    # 网络请求相关参数
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
         'AppleWebKit/537.36 (KHTML, like Gecko) ' +
@@ -16,12 +16,12 @@ class HtmlDownloader(object):
     def request_url(self, url, headers=headers, params=params, data=data):
         '''
         请求函数，使用requests库，已实现get和post
-        参数：
-        :url 爬取的目标URL
-        :headers 所需头文件
-        :params get请求所需参数
-        :data post请求所需表单
-        返回：
+        :parameter:
+        url 爬取的目标URL
+        headers 所需头文件
+        params get请求所需参数
+        data post请求所需表单
+        :return:
         正常时，Response对象。异常时，打印异常说明，返回None
         '''
         try:
