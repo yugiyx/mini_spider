@@ -1,8 +1,6 @@
-# coding:utf-8
 from URLManager import UrlManager
-from HtmlDownloader import HtmlDownloader
-from HtmlParser import HtmlParser
-
+from Downloader import HtmlDownloader
+from Parser import HtmlParser
 from DataOutput import DataOutput
 
 
