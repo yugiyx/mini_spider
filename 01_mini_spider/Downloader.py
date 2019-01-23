@@ -34,6 +34,7 @@ class HtmlDownloader(object):
                 return r
             return None
         except requests.RequestException as e:
+            # 打印请求错误说明
             print('请求错误==>', e.args)
             return None
 

@@ -1,6 +1,6 @@
 import csv
 import json
-# from pymongo import MongoClient
+from pymongo import MongoClient
 
 
 class DataOutput(object):
@@ -31,7 +31,7 @@ class DataOutput(object):
         存储为CSV格式纯文本
         :return:
         '''
-        with open(self.data_name, 'a', encoding='utf-8') as f:
+        with open(self.data_name, 'a', encoding='utf-8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(content)
         return 'Succesfully save data'
@@ -55,19 +55,19 @@ class DataOutput(object):
         '''
         pass
 
-    # def save_2_mongodb(self, content):
-    #     '''
-    #     存储为JSON格式纯文本
-    #     :parameter:
-    #     content dict格式数据
-    #     :return:
-    #     打印Succesfully save data
-    #     '''
-    #     client = MongoClient()
-    #     db = client[self.data_name]
-    #     collection = db[self.data_name]
-    #     collection.insert(self, content)
-    #     return 'Succesfully save data'
+    def save_2_mongodb(self, content):
+        '''
+        存储为JSON格式纯文本
+        :parameter:
+        content dict格式数据
+        :return:
+        打印Succesfully save data
+        '''
+        client = MongoClient('localhost', 27017)
+        db = client[self.data_name]
+        collection = db[self.data_name]
+        collection.insert_one(content)
+        return 'Succesfully save data'
 
 
 if __name__ == '__main__':
@@ -97,19 +97,19 @@ if __name__ == '__main__':
     test3.save_2_json(json_data)
     # 测试save_2_mongodb()
     test5 = DataOutput('test')
-    # mongo_data1 = {
-    #     'id': 10001,
-    #     'text': '我爱你中国',
-    #     'reposts_count': 50,
-    #     'comments_count': 0,
-    #     'attitudes_count': 100,
-    # }
-    # mongo_data2 = {
-    #     'id': 10002,
-    #     'text': '我爱你武汉',
-    #     'reposts_count': 49,
-    #     'comments_count': 0,
-    #     'attitudes_count': 99,
-    # }
-    # test5.save_2_mongodb(mongo_data1)
-    # test5.save_2_mongodb(mongo_data2)
+    mongo_data1 = {
+        'id': 10001,
+        'text': '我爱你中国',
+        'reposts_count': 50,
+        'comments_count': 0,
+        'attitudes_count': 100,
+    }
+    mongo_data2 = {
+        'id': 10002,
+        'text': '我爱你武汉',
+        'reposts_count': 49,
+        'comments_count': 0,
+        'attitudes_count': 99,
+    }
+    test5.save_2_mongodb(mongo_data1)
+    test5.save_2_mongodb(mongo_data2)
