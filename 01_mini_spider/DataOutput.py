@@ -18,7 +18,7 @@ class DataOutput(object):
         '''
         存储为纯文本
         :parameter:
-        content str格式文本
+        content str类型
         :return:
         打印Succesfully save data
         '''
@@ -29,6 +29,8 @@ class DataOutput(object):
     def save_2_csv(self, content):
         '''
         存储为CSV格式纯文本
+        :parameter:
+        content list类型
         :return:
         '''
         with open(self.data_name, 'a', encoding='utf-8', newline='') as f:
@@ -59,7 +61,7 @@ class DataOutput(object):
         '''
         存储为JSON格式纯文本
         :parameter:
-        content dict格式数据
+        content dict类型
         :return:
         打印Succesfully save data
         '''
