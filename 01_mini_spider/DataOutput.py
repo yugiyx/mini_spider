@@ -6,13 +6,7 @@ from pymongo import MongoClient
 class DataOutput(object):
 
     def __init__(self, data_name):
-        self.datas = []
         self.data_name = data_name
-
-    def store_data(self, data):
-        if data is None:
-            return
-        self.datas.append(data)
 
     def save_2_text(self, content):
         '''
@@ -50,12 +44,16 @@ class DataOutput(object):
             f.write(json.dumps(content, indent=2, ensure_ascii=False) + '\n')
         return 'Succesfully save data'
 
-    def save_2_binary(self):
+    def save_2_binary(self, content):
         '''
         存储为二进制格式，图片、文件等
+        :parameter:
+        content 二进制数据
         :return:
         '''
-        pass
+        with open(self.data_name, 'wb') as f:
+            f.write(content)
+        return 'Succesfully save data'
 
     def save_2_mongodb(self, content):
         '''
@@ -97,6 +95,7 @@ if __name__ == '__main__':
         }
     ]
     test3.save_2_json(json_data)
+    # 测试save_2_binary 暂无
     # 测试save_2_mongodb()
     test5 = DataOutput('test')
     mongo_data1 = {
