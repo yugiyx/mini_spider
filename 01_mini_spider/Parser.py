@@ -1,58 +1,62 @@
-# coding:utf-8
 import re
-import urllib.parse
-from bs4 import BeautifulSoup
+from pyquery import PyQuery as pq
 
 
 class HtmlParser(object):
 
-    def parser(self, page_url, html_cont):
+    def parse_urls(self, response):
         '''
-        用于解析网页内容抽取URL和数据
-        :param page_url: 下载页面的URL
-        :param html_cont: 下载的网页内容
-        :return:返回URL和数据
+        获取需要下载的URL和标题
+        :parameter:
+        response 下载器得到的Response对象
+        :return:
+        需要下载的URL和标题
         '''
-        if page_url is None or html_cont is None:
-            return
-        soup = BeautifulSoup(html_cont, 'html.parser', from_encoding='utf-8')
-        new_urls = self._get_new_urls(page_url, soup)
-        new_data = self._get_new_data(page_url, soup)
-        return new_urls, new_data
+        if response is None:
+            return None
+        doc = pq(response.text)
+        if doc('title'):
+            # 获取大师版首页的URL列表
+            items = doc('.main .listBox').find('.pic.pic75')
+            for item in items.items():
+                title = item.attr('title').replace('|', '').strip()
+                url = item.attr('href')
+        else:
+            # 获取后续页URL列表
+            doc = response.json().get('data')
+            for item in doc:
+                title = item.get('title').replace('|', '').strip()
+                url = item.get('url')
+        # 通过判断url是否含有slide，去掉非画廊内容
+        if 'slide' in url:
+            yield {
+                'title': title,
+                'url': url,
+            }
 
-    def _get_new_urls(self, page_url, soup):
+    def parse_data(self, response):
         '''
-        抽取新的URL集合
-        :param page_url: 下载页面的URL
-        :param soup:soup
-        :return: 返回新的URL集合
+        第二级解析函数，获取有效数据
+        :parameter：
+        response 下载器得到的Response对象
+        :return:
+        标题和需下载图片URL列表
         '''
-        new_urls = set()
-        # 抽取符合要求的a标签
-        # 原书代码
-        # links = soup.find_all('a',href=re.compile(r'/view/\d+\.htm'))
-        # 2017-07-03 更新,原因百度词条的链接形式发生改变
-        links = soup.find_all('a', href=re.compile(r'/item/.*'))
-        for link in links:
-            # 提取href属性
-            new_url = link['href']
-            # 拼接成完整网址
-            new_full_url = urllib.parse.urljoin(page_url, new_url)
-            new_urls.add(new_full_url)
-        return new_urls
-
-    def _get_new_data(self, page_url, soup):
-        '''
-        抽取有效数据
-        :param page_url:下载页面的URL
-        :param soup:
-        :return:返回有效数据
-        '''
-        data = {}
-        data['url'] = page_url
-        title = soup.find('dd', class_='lemmaWgt-lemmaTitle-title').find('h1')
-        data['title'] = title.get_text()
-        summary = soup.find('div', class_='lemma-summary')
-        # 获取到tag中包含的所有文版内容包括子孙tag中的内容,并将结果作为Unicode字符串返回
-        data['summary'] = summary.get_text()
-        return data
+        if response is None:
+            return None
+        doc = pq(response.text)
+        if 'image' in response.url:
+            title = doc('title').text().replace(
+                '_组图-蜂鸟网', '').replace('|', '').strip()
+            html = doc('html').html().replace('\\', '')
+            urls = re.findall(
+                r'pic_url":"(.*?)","pic_url_s', html, re.S)
+        elif 'bbs' in response.url:
+            title = doc('title').text().replace('【有图】', '').strip()
+            html = doc('.postMain.module1200').html()
+            urls = re.findall(
+                r'class="img".*?src="(.*?)"/></a>', html, re.S)
+        return {
+            'title': title,
+            'url': urls,
+        }

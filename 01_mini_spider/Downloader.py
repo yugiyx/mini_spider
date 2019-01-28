@@ -13,7 +13,7 @@ class HtmlDownloader(object):
     params = {}
     data = {}
 
-    def request_url(self, url, headers=headers, params=params, data=data):
+    def download(self, url, headers=headers, params=params, data=data):
         '''
         请求函数，使用requests库，已实现get和post
         :parameter:
@@ -41,4 +41,4 @@ class HtmlDownloader(object):
 
 if __name__ == '__main__':
     test = HtmlDownloader()
-    print(test.request_url('https://httpbin.org'))
+    print(test.download('https://httpbin.org'))

@@ -56,3 +56,28 @@ class UrlManager(object):
         :return:
         '''
         return len(self.old_urls)
+
+    def remove_duplication(flag):
+        '''
+        去重判断
+        :parameter:
+        :flag 去重标志
+        :return:
+        未重复，返回去重标志。重复，返回None
+        '''
+        with open('download_log.txt', 'r', encoding='utf-8') as f:
+            if flag in f.read():
+                return None
+            else:
+                return flag
+
+    def add_duplication(flag):
+        '''
+        记录去重标志
+        :parameter:
+        :flag 去重标志
+        :return:
+        未重复，返回去重标志。重复，返回None
+        '''
+        with open('download_log.txt', 'a', encoding='utf-8') as f:
+            f.write(flag + '\n')

@@ -1,5 +1,8 @@
 import csv
 import json
+import os
+import shutil
+import time
 from pymongo import MongoClient
 
 
@@ -16,6 +19,8 @@ class DataOutput(object):
         :return:
         打印Succesfully save data
         '''
+        if content is None:
+            return None
         with open(self.data_name, 'a', encoding='utf-8') as f:
             f.write(content + '\n')
         return 'Succesfully save data'
@@ -27,6 +32,8 @@ class DataOutput(object):
         content list类型
         :return:
         '''
+        if content is None:
+            return None
         with open(self.data_name, 'a', encoding='utf-8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(content)
@@ -40,17 +47,29 @@ class DataOutput(object):
         :return:
         打印Succesfully save data
         '''
+        if content is None:
+            return None
         with open(self.data_name, 'a', encoding='utf-8') as f:
             f.write(json.dumps(content, indent=2, ensure_ascii=False) + '\n')
         return 'Succesfully save data'
 
-    def save_2_binary(self, content):
+    def save_2_binary(self, title, content):
         '''
         存储为二进制格式，图片、文件等
         :parameter:
         content 二进制数据
         :return:
         '''
+        if content is None:
+            return None
+        path = folder + '/' + time.strftime('%Y%m%d') + '/' + title
+        try:
+            os.makedirs(path)
+        except FileExistsError:
+            print('删除已存在目录')
+            # 递归删除目录和目录里面的文件
+            shutil.rmtree(path)
+            os.makedirs(path)
         with open(self.data_name, 'wb') as f:
             f.write(content)
         return 'Succesfully save data'
@@ -63,6 +82,8 @@ class DataOutput(object):
         :return:
         打印Succesfully save data
         '''
+        if content is None:
+            return None
         client = MongoClient('localhost', 27017)
         db = client[self.data_name]
         collection = db[self.data_name]
