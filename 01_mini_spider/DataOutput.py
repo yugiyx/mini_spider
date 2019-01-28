@@ -4,12 +4,12 @@ import os
 import shutil
 import time
 from pymongo import MongoClient
-
+from Downloader import HtmlDownloader
 
 class DataOutput(object):
 
-    def __init__(self, data_name):
-        self.data_name = data_name
+    def __init__(self):
+        self.downloader = HtmlDownloader()
 
     def save_2_text(self, content):
         '''
@@ -53,16 +53,16 @@ class DataOutput(object):
             f.write(json.dumps(content, indent=2, ensure_ascii=False) + '\n')
         return 'Succesfully save data'
 
-    def save_2_binary(self, title, content):
+    def save_2_binary(self, name, url_list):
         '''
         存储为二进制格式，图片、文件等
         :parameter:
-        content 二进制数据
+        name 存储的文件夹名字
         :return:
         '''
-        if content is None:
+        if url_list is None:
             return None
-        path = folder + '/' + time.strftime('%Y%m%d') + '/' + title
+        path = 'data/' + time.strftime('%Y%m%d') + '/' + name
         try:
             os.makedirs(path)
         except FileExistsError:
@@ -70,8 +70,17 @@ class DataOutput(object):
             # 递归删除目录和目录里面的文件
             shutil.rmtree(path)
             os.makedirs(path)
-        with open(self.data_name, 'wb') as f:
-            f.write(content)
+        print('开始下载==>')
+        for index, url in enumerate(url_list):
+            print(index + 1, '==>', url)
+            file_path = path + '/' + str(index + 1) + '.jpg'
+            r = self.downloader.download(url)
+            with open(file_path, 'wb') as f:
+                f.write(r.content)
+            # 去重判断标志，全部下载完成以后才会添加到清单，没有下载完的文章，不会记录标志位
+            self.
+        else:
+            print('成功下载==>', title)
         return 'Succesfully save data'
 
     def save_2_mongodb(self, content):
