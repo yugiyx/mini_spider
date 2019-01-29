@@ -15,7 +15,8 @@ class UrlManager(object):
         获取一个未爬取的URL
         :return:
         '''
-        new_url = self.new_urls.pop()
+        # 弹出第一个URL
+        new_url = self.new_urls.pop(0)
         self.old_urls.add(new_url)
         return new_url
 

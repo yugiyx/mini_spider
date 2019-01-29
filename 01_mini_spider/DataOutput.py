@@ -6,6 +6,7 @@ import time
 from pymongo import MongoClient
 from Downloader import HtmlDownloader
 
+
 class DataOutput(object):
 
     def __init__(self):
@@ -53,7 +54,7 @@ class DataOutput(object):
             f.write(json.dumps(content, indent=2, ensure_ascii=False) + '\n')
         return 'Succesfully save data'
 
-    def save_2_binary(self, name, url_list):
+    def save_2_binary(self, name, content):
         '''
         存储为二进制格式，图片、文件等
         :parameter:
@@ -66,21 +67,9 @@ class DataOutput(object):
         try:
             os.makedirs(path)
         except FileExistsError:
-            print('删除已存在目录')
-            # 递归删除目录和目录里面的文件
-            shutil.rmtree(path)
-            os.makedirs(path)
-        print('开始下载==>')
-        for index, url in enumerate(url_list):
-            print(index + 1, '==>', url)
-            file_path = path + '/' + str(index + 1) + '.jpg'
-            r = self.downloader.download(url)
-            with open(file_path, 'wb') as f:
-                f.write(r.content)
-            # 去重判断标志，全部下载完成以后才会添加到清单，没有下载完的文章，不会记录标志位
-            self.
-        else:
-            print('成功下载==>', title)
+            pass
+        with open(file_path, 'wb') as f:
+            f.write(r.content)
         return 'Succesfully save data'
 
     def save_2_mongodb(self, content):
