@@ -8,7 +8,6 @@ from DataOutput import DataOutput
 class SpiderMan(object):
     def __init__(self):
         self.manager = UrlManager()
-        self.manager2 = UrlManager()
         self.downloader = HtmlDownloader()
         self.parser = HtmlParser()
         self.output = DataOutput()
@@ -22,6 +21,7 @@ class SpiderMan(object):
         返回：
         无
         '''
+        manager2 = UrlManager()
         # 添加入口URL
         if 'image' in start_url or 'academy' in start_url:
             self.manager.add_new_url(start_url)
@@ -35,24 +35,25 @@ class SpiderMan(object):
                     # 通过URL关键词判断是否是二级网页
                     if 'slide' in new_url:
                         # HTML解析器抽取网页数据
-                        new_urls = self.parser.parse_data(html)
+                        data = self.parser.parse_data(html)
                         # 将抽取到url添加到URL管理器中
-                        for url in new_urls:
-                            print('地址+++>', url)
-                        # self.self.manager2.add_new_url(new_urls)
+                        title = data.get('title')
+                        if manager2.remove_duplication(title):
+                            manager2.add_new_urls(data.get('url'))
+                        else:
+                            print('已下载==>', title)
                     else:
                         new_urls = self.parser.parse_urls(html)
-                        for url in new_urls:
-                            print('地址++>', url)
-                        # self.manager.add_new_urls(new_urls)
-                    # while(self.manager2.has_new_url()):
-                    #     image_url = self.manager2.get_new_url()
-                    #     data = self.downloader.download(image_url)
-                    #     self.output.save_2_binary(title, data)
-                    #     # 全部下载完成，增加去重标志
-                    #     if not self.manager2.has_new_url():
-                    #         self.manager2.add_duplication(title)
-                    #         print('完成爬取==>', title)
+                        self.manager.add_new_urls(new_urls)
+                    while(manager2.has_new_url()):
+                        image_urls = manager2.get_new_urls()
+                        for index, url in enumerate(image_urls):
+                            data = self.downloader.download(url)
+                            self.output.save_2_binary(title, index + 1, data)
+                        # 全部下载完成，增加去重标志
+                        if not manager2.has_new_url():
+                            manager2.add_duplication(title)
+                            print('下载完成==>', title)
                 except Exception as e:
                     print('爬取失败==>', e)
             # 爬取后续页数
@@ -115,6 +116,6 @@ bbs_url = 'http://bbs.fengniao.com/forum/10580192.html'
 if __name__ == "__main__":
     print('<==========下载开始==========>', time.strftime('%Y-%m-%d %H:%M:%S'))
     spider_man = SpiderMan()
-    spider_man.crawl_image(image_url, 2)
-    spider_man.crawl_image(academy_url, 2)
+    spider_man.crawl_image(image_url, 1)
+    # spider_man.crawl_image(academy_url, 1)
     print('<==========下载结束==========>', time.strftime('%Y-%m-%d %H:%M:%S'))

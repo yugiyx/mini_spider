@@ -23,7 +23,7 @@ class HtmlParser(object):
                 url = item.attr('href')
                 # 通过判断url是否含有slide，去掉非画廊内容
                 if 'slide' in url:
-                    print('解析到1==>', title)
+                    print('解析到==>', title)
                     yield url
         else:
             # 获取后续页URL列表
@@ -32,7 +32,7 @@ class HtmlParser(object):
                 title = item.get('title').replace('|', '').strip()
                 url = item.get('url')
                 if 'slide' in url:
-                    print('解析到2==>', title)
+                    print('解析到==>', title)
                     yield url
 
     def parse_data(self, response):
@@ -46,7 +46,7 @@ class HtmlParser(object):
         if response is None:
             return None
         doc = pq(response.text)
-        if 'image' in response.url:
+        if 'slide' in response.url:
             title = doc('title').text().replace(
                 '_组图-蜂鸟网', '').replace('|', '').strip()
             html = doc('html').html().replace('\\', '')

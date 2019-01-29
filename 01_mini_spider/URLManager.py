@@ -1,7 +1,7 @@
 class UrlManager(object):
     def __init__(self):
-        self.new_urls = set()  # 未爬取URL集合
-        self.old_urls = set()  # 已爬取URL集合
+        self.new_urls = []  # 未爬取URL集合
+        self.old_urls = []  # 已爬取URL集合
 
     def has_new_url(self):
         '''
@@ -16,9 +16,20 @@ class UrlManager(object):
         :return:
         '''
         # 弹出第一个URL
-        new_url = self.new_urls.pop()
-        self.old_urls.add(new_url)
+        new_url = self.new_urls.pop(0)
+        self.old_urls.append(new_url)
         return new_url
+
+    def get_new_urls(self):
+        '''
+        获取全部未爬取的URL
+        :return:
+        '''
+        # 弹出第一个URL
+        new_urls = self.new_urls[:]
+        self.old_urls = self.new_urls[:]
+        self.new_urls = []
+        return new_urls
 
     def add_new_url(self, url):
         '''
@@ -30,8 +41,7 @@ class UrlManager(object):
         if url is None:
             return None
         if url not in self.new_urls and url not in self.old_urls:
-            self.new_urls.add(url)
-            print('获得URL==>', url)
+            self.new_urls.append(url)
 
     def add_new_urls(self, urls):
         '''
@@ -40,7 +50,7 @@ class UrlManager(object):
         urls url集合
         :return:
         '''
-        if urls is None or len(urls) == 0:
+        if urls is None:
             return None
         for url in urls:
             self.add_new_url(url)
@@ -59,7 +69,7 @@ class UrlManager(object):
         '''
         return len(self.old_urls)
 
-    def remove_duplication(flag):
+    def remove_duplication(self, flag):
         '''
         去重判断
         :parameter:
@@ -67,13 +77,14 @@ class UrlManager(object):
         :return:
         未重复，返回去重标志。重复，返回None
         '''
-        with open('download_log.txt', 'r', encoding='utf-8') as f:
+        with open('download_log.txt', 'a+', encoding='utf-8') as f:
+            f.seek(0)
             if flag in f.read():
                 return None
             else:
                 return flag
 
-    def add_duplication(flag):
+    def add_duplication(self, flag):
         '''
         记录去重标志
         :parameter:

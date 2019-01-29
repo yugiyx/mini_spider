@@ -54,7 +54,7 @@ class DataOutput(object):
             f.write(json.dumps(content, indent=2, ensure_ascii=False) + '\n')
         return 'Succesfully save data'
 
-    def save_2_binary(self, name, content):
+    def save_2_binary(self, name, index, content):
         '''
         存储为二进制格式，图片、文件等
         :parameter:
@@ -68,8 +68,9 @@ class DataOutput(object):
             os.makedirs(path)
         except FileExistsError:
             pass
+        file_path = path + '/%s.jpg' % index
         with open(file_path, 'wb') as f:
-            f.write(r.content)
+            f.write(content.content)
         return 'Succesfully save data'
 
     def save_2_mongodb(self, content):

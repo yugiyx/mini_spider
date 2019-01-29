@@ -41,4 +41,4 @@ class HtmlDownloader(object):
 
 if __name__ == '__main__':
     test = HtmlDownloader()
-    print(test.download('https://httpbin.org'))
+    print(test.download('https://cms.qn.img-space.com/product/158/259/cejMGHLfOLMiQ.jpg'))
