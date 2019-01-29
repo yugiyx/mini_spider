@@ -16,7 +16,7 @@ class UrlManager(object):
         :return:
         '''
         # 弹出第一个URL
-        new_url = self.new_urls.pop(0)
+        new_url = self.new_urls.pop()
         self.old_urls.add(new_url)
         return new_url
 
@@ -31,6 +31,7 @@ class UrlManager(object):
             return None
         if url not in self.new_urls and url not in self.old_urls:
             self.new_urls.add(url)
+            print('获得URL==>', url)
 
     def add_new_urls(self, urls):
         '''

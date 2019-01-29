@@ -8,6 +8,7 @@ from DataOutput import DataOutput
 class SpiderMan(object):
     def __init__(self):
         self.manager = UrlManager()
+        self.manager2 = UrlManager()
         self.downloader = HtmlDownloader()
         self.parser = HtmlParser()
         self.output = DataOutput()
@@ -22,40 +23,46 @@ class SpiderMan(object):
         无
         '''
         # 添加入口URL
-        if ('image' and 'academy') in start_url:
-            self.manager1.add_new_url(start_url)
-        # 判断url管理器中是否有新的url，同时判断抓取了多少个url
-        while(self.manager1.has_new_url()):
-            try:
-                manager2 = UrlManager()
-                # 从URL管理器获取新的url
-                new_url = self.manager1.get_new_url()
-                # HTML下载器下载网页
-                html = self.downloader.download(new_url)
-                # 通过URL关键词判断是否是二级网页
-                if 'slide' in new_url:
-                    # HTML解析器抽取网页数据
-                    title, new_urls = self.parser.parse_data(html)
-                    # 将抽取到url添加到URL管理器中
-                    manager2.add_new_url(new_urls)
-                else:
-                    title, new_urls = self.parser.parse_urls(html)
-                    self.manager1.add_new_urls(new_urls)
-                while(manager2.has_new_url()):
-                    image_url = manager2.get_new_url()
-                    data = self.downloader.download(image_url)
-                    self.output.save_2_binary(title, data)
-                    # 全部下载完成，增加去重标志
-                    if not manager2.has_new_url():
-                        manager2.add_duplication(title)
-                        print('完成爬取==>', title)
-            except Exception as e:
-                print('爬取失败==>', e)
+        if 'image' in start_url or 'academy' in start_url:
+            self.manager.add_new_url(start_url)
+            # 判断url管理器中是否有新的url
+            while(self.manager.has_new_url()):
+                try:
+                    # 从URL管理器获取新的url
+                    new_url = self.manager.get_new_url()
+                    # HTML下载器下载网页
+                    html = self.downloader.download(new_url)
+                    # 通过URL关键词判断是否是二级网页
+                    if 'slide' in new_url:
+                        # HTML解析器抽取网页数据
+                        new_urls = self.parser.parse_data(html)
+                        # 将抽取到url添加到URL管理器中
+                        for url in new_urls:
+                            print('地址+++>', url)
+                        # self.self.manager2.add_new_url(new_urls)
+                    else:
+                        new_urls = self.parser.parse_urls(html)
+                        for url in new_urls:
+                            print('地址++>', url)
+                        # self.manager.add_new_urls(new_urls)
+                    # while(self.manager2.has_new_url()):
+                    #     image_url = self.manager2.get_new_url()
+                    #     data = self.downloader.download(image_url)
+                    #     self.output.save_2_binary(title, data)
+                    #     # 全部下载完成，增加去重标志
+                    #     if not self.manager2.has_new_url():
+                    #         self.manager2.add_duplication(title)
+                    #         print('完成爬取==>', title)
+                except Exception as e:
+                    print('爬取失败==>', e)
             # 爬取后续页数
             if __page <= total_page:
-                next_url = start_url + \
-                    '/index.php?action=getList&class_id=192&sub_classid=0&page=' +\
-                    str(__page) + '&not_in_id='
+                if 'image' in start_url:
+                    next_url = '%s/index.php?action=getList&class_id=192&sub_classid=0&page=%s&not_in_id=' % (
+                        start_url, str(__page))
+                else:
+                    next_url = '%s/index.php?action=getList&class_id=190&sub_classid=0&page=%s&not_in_id=' % (
+                        start_url, str(__page))
                 print('开始爬取==>第', str(__page), '页')
                 return self.crawl_image(next_url, total_page, __page + 1)
         else:
@@ -109,4 +116,5 @@ if __name__ == "__main__":
     print('<==========下载开始==========>', time.strftime('%Y-%m-%d %H:%M:%S'))
     spider_man = SpiderMan()
     spider_man.crawl_image(image_url, 2)
+    spider_man.crawl_image(academy_url, 2)
     print('<==========下载结束==========>', time.strftime('%Y-%m-%d %H:%M:%S'))

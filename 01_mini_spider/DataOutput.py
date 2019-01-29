@@ -1,7 +1,7 @@
 import csv
 import json
 import os
-import shutil
+
 import time
 from pymongo import MongoClient
 from Downloader import HtmlDownloader
@@ -61,7 +61,7 @@ class DataOutput(object):
         name 存储的文件夹名字
         :return:
         '''
-        if url_list is None:
+        if content is None:
             return None
         path = 'data/' + time.strftime('%Y%m%d') + '/' + name
         try:
