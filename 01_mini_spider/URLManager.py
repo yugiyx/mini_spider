@@ -1,7 +1,7 @@
 class UrlManager(object):
     def __init__(self):
-        self.new_urls = []  # 未爬取URL集合
-        self.old_urls = []  # 已爬取URL集合
+        self.new_urls = []  # 未爬取URL列表
+        self.old_urls = []  # 已爬取URL列表
 
     def has_new_url(self):
         '''
@@ -15,7 +15,7 @@ class UrlManager(object):
         获取一个未爬取的URL
         :return:
         '''
-        # 弹出第一个URL
+        # 弹出正数第一个URL
         new_url = self.new_urls.pop(0)
         self.old_urls.append(new_url)
         return new_url
@@ -25,7 +25,7 @@ class UrlManager(object):
         获取全部未爬取的URL
         :return:
         '''
-        # 弹出第一个URL
+        # 弹出全部URL
         new_urls = self.new_urls[:]
         self.old_urls = self.new_urls[:]
         self.new_urls = []
@@ -47,7 +47,7 @@ class UrlManager(object):
         '''
         将新的URLS添加到未爬取的URL集合中
         :parameter:
-        urls url集合
+        urls URL列表，生成器
         :return:
         '''
         if urls is None:
