@@ -1,7 +1,6 @@
 import csv
 import json
 import os
-
 import time
 from pymongo import MongoClient
 
