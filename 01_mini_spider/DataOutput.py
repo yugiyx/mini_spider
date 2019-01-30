@@ -4,13 +4,12 @@ import os
 
 import time
 from pymongo import MongoClient
-from Downloader import HtmlDownloader
 
 
 class DataOutput(object):
 
     def __init__(self):
-        self.downloader = HtmlDownloader()
+        pass
 
     def save_2_text(self, content):
         '''
