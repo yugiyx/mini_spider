@@ -103,6 +103,6 @@ bbs_url = 'http://bbs.fengniao.com/forum/10580192.html'
 if __name__ == "__main__":
     print('<==========下载开始==========>', time.strftime('%Y-%m-%d %H:%M:%S'))
     spider_man = SpiderMan()
-    # spider_man.crawl_image(image_url, 1)
-    spider_man.crawl_image(academy_url, 2)
+    spider_man.crawl_image(image_url, 1)
+    # spider_man.crawl_image(academy_url, 2)
     print('<==========下载结束==========>', time.strftime('%Y-%m-%d %H:%M:%S'))
